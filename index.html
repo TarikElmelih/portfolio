@@ -671,6 +671,40 @@
         .float-animation {
             animation: float 4s ease-in-out infinite;
         }
+
+        /* Project Tabs */
+        .project-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--secondary-color);
+            background: transparent;
+            color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .project-card {
+            display: none;
+        }
+
+        .project-card.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -752,9 +786,17 @@
             <div class="section-title">
                 <h2>مشاريعي</h2>
             </div>
+            
+            <!-- Project Tabs -->
+            <div class="project-tabs" data-aos="fade-up">
+                <button class="tab-btn active" data-category="all">الكل</button>
+                <button class="tab-btn" data-category="wordpress">WordPress</button>
+                <button class="tab-btn" data-category="laravel">قيد التحديث</button>
+            </div>
+
             <div class="projects-grid">
                 <!-- Project 1 -->
-                <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="project-card" data-category="wordpress" data-aos="zoom-in" data-aos-delay="100">
                     <div class="project-img">
                         <img src="/portfolio/images/projects/image.png" alt="Ayn Academy">
                     </div>
@@ -768,7 +810,7 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="project-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="project-card" data-category="wordpress" data-aos="zoom-in" data-aos-delay="200">
                     <div class="project-img">
                         <img src="/portfolio/images/projects/bina.png" alt="Bina Organization">
                     </div>
@@ -782,7 +824,7 @@
                 </div>
 
                 <!-- Project 3 -->
-                <div class="project-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="project-card" data-category="wordpress" data-aos="zoom-in" data-aos-delay="300">
                     <div class="project-img">
                         <img src="/portfolio/images/projects/etunum.png" alt="Etunum">
                     </div>
@@ -796,19 +838,18 @@
                 </div>
                 
                 <!-- Project 4 -->
-                <div class="project-card" data-aos="zoom-in" data-aos-delay="300">
+                <div class="project-card" data-category="wordpress" data-aos="zoom-in" data-aos-delay="300">
                     <div class="project-img">
-                        <img src="/portfolio/images/projects/alter.png" alt="Etunum">
+                        <img src="/portfolio/images/projects/alter.png" alt="Alter">
                     </div>
                     <div class="project-content">
-                        <h3 class="project-title">  شركة معنية بتقديم خدمات إدارية ولوجستية متكاملة لشركات الأعمال.  </h3>
+                        <h3 class="project-title">شركة معنية بتقديم خدمات إدارية ولوجستية متكاملة لشركات الأعمال.</h3>
                         <p class="project-desc">وتعنى بمساعدة أصحاب رؤوس الأموال على القيام بتنفيذ مشاريعهم الخاصة أو الجديدة في الأسواق.</p>
                         <div class="project-links">
                             <a href="https://alter-company.com/" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
@@ -938,6 +979,32 @@
                 });
             });
         });
+
+        // Project filtering
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.getAttribute('data-category');
+                
+                projectCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.classList.add('show');
+                    } else {
+                        card.classList.remove('show');
+                    }
+                });
+            });
+        });
+
+        // Show all projects initially
+        projectCards.forEach(card => card.classList.add('show'));
     </script>
 </body>
 </html>
